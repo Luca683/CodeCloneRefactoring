@@ -22,13 +22,11 @@ public class Visitor{
         VoidVisitor<List<BlockStmt>> methodBlockStmt = new MethodBlockStmt();
         methodBlockStmt.visit(cu, methodBlocks);
 
-        //System.out.println(methodBlocks.get(1).getStatements().get(0));
-
         for(int i=0;i<methodBlocks.size();i++){ //for each block i ...
             for(int j=0;j<methodBlocks.get(i).getStatements().size();j++){ //... for each statement j of block i
-                System.out.println(methodBlocks.get(i).getStatements().get(j));
+                System.out.println(j + ". " + methodBlocks.get(i).getStatements().get(j));
             }
-            System.out.println("\n\n");
+            System.out.println("\n");
         }
         
     }

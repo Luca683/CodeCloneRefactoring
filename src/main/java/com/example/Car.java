@@ -19,6 +19,9 @@ public class Car{
             speed++;
             System.out.println("Velocità aumentata di 1");
         }
+        else{
+            System.out.println("La macchina è spenta");
+        }
     }
     public String getColor(){ return color; }
     public int getSpeed(){ return speed; }
