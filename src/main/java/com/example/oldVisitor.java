@@ -13,7 +13,7 @@ import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.IfStmt;
 
 
-public class myVisitor{
+public class oldVisitor{
     private static final String FILE_PATH = "/Users/stran/OneDrive/Desktop/CodeCloneRefactoring/src/main/java/com/example/Car.java";
     
     public static void main(String[] args) throws Exception{

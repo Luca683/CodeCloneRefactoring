@@ -31,7 +31,15 @@ public class Visitor {
         methodBlockStmtVisitor.visit(cu, methodBlocksList);
         return methodBlocksList;
     }
-
+/* 
+    public void printTypeStatement(BlockStmt block){
+        List<String> myList = createListOfTypeStatement(block);
+        for(int i=0;i<myList.size();i++){
+            System.out.println(myList.get(i));
+        }
+    }
+*/
+    //Dato uno statement ne restituisce la tipologia sotto forma di stringa
     private static String getStatementType(Statement st){
         if(st.isExpressionStmt()){
             ExpressionStmt exp = (ExpressionStmt) st;
@@ -39,7 +47,16 @@ public class Visitor {
         }
         else return st.getClass().getSimpleName();
     }
-    
+
+    //Dato un blocco di statement, crea una lista di stringhe contenente per ogni statement la sua tipologia 
+    public static List<String> createListOfTypeStatement(BlockStmt block){
+        List<String> statementTypeList = new ArrayList<>();
+        for(int i=0;i<block.getStatements().size();i++){
+            statementTypeList.add(getStatementType(block.getStatements().get(i)));     
+        }
+        return statementTypeList;
+    }
+
     private static class MethodName extends VoidVisitorAdapter<List<String>>{
         @Override
         public void visit(MethodDeclaration md, List<String> collector){
