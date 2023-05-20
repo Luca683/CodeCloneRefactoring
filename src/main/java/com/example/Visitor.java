@@ -8,6 +8,8 @@ import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 import com.github.javaparser.ast.visitor.VoidVisitor;
 import com.github.javaparser.ast.stmt.BlockStmt;
+import com.github.javaparser.ast.stmt.ExpressionStmt;
+import com.github.javaparser.ast.stmt.Statement;
 
 public class Visitor {
     private CompilationUnit cu;
@@ -30,6 +32,14 @@ public class Visitor {
         return methodBlocksList;
     }
 
+    private static String getStatementType(Statement st){
+        if(st.isExpressionStmt()){
+            ExpressionStmt exp = (ExpressionStmt) st;
+            return exp.getExpression().getClass().getSimpleName();
+        }
+        else return st.getClass().getSimpleName();
+    }
+    
     private static class MethodName extends VoidVisitorAdapter<List<String>>{
         @Override
         public void visit(MethodDeclaration md, List<String> collector){
