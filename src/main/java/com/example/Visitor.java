@@ -10,6 +10,7 @@ import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 import com.github.javaparser.ast.visitor.VoidVisitor;
 import com.github.javaparser.ast.stmt.BlockStmt;
+import com.github.javaparser.ast.stmt.IfStmt;
 
 
 public class Visitor{
@@ -19,60 +20,60 @@ public class Visitor{
         
         CompilationUnit cu = StaticJavaParser.parse(new FileInputStream(FILE_PATH));
         
-        System.out.println("\t***FIRST VISITOR***");
-        //For First Visitor
-        VoidVisitor<Void> methodNameVisitor = new MethodNamePrinter();
-        methodNameVisitor.visit(cu, null);
+        //Visitatore dei nomi di ogni metodo
+        List<String> methodNameList = new ArrayList<>();
+        VoidVisitor<List<String>> methodNameVisitor = new MethodName();
+        methodNameVisitor.visit(cu, methodNameList);
 
-        System.out.println("\n\n\t***SECOND VISITOR***");
-        //For Second Visitor
-        List<String> methodNames = new ArrayList<>();
-        VoidVisitor<List<String>> methodNameCollector = new MethodNameCollector();
-        methodNameCollector.visit(cu, methodNames);
-        methodNames.forEach(n -> System.out.println("Method name collected: " + n));
+        //Visitatore degli statements di ogni metodo
+        List<BlockStmt> methodBlocksList = new ArrayList<>();
+        VoidVisitor<List<BlockStmt>> methodBlockStmtVisitor = new MethodBlockStmt();
+        methodBlockStmtVisitor.visit(cu, methodBlocksList);
 
-        System.out.println("\n\n\t***THIRD VISITOR***");
-        //For Third Visitor
-        List<BlockStmt> methodStatements = new ArrayList<>();
-        VoidVisitor<List<BlockStmt>> methodStatementsCollector= new MethodStatementsCollector();
-        methodStatementsCollector.visit(cu, methodStatements);
-            //Print a particular statement (getStatements) for a particular method (get)
-        //System.out.println(methodStatements.get(2).getStatements().get(1));
-
-        for(int i=0;i<methodStatements.size();i++){
-            System.out.println("METHOD NAME: " + methodNames.get(i));
-            System.out.println("STATEMENTS: " + methodStatements.get(i).getStatements());
-            System.out.println("***********************************************");
+        //print..
+        //NOTA: cominciamo ad ispezionare la lista methodBlocksList dall'indice 1, perchè l'elemento in posizione 0 conterrà il BlockStmt relativo al costruttore (che a noi non interessa)
+        for(int i=1;i<methodBlocksList.size();i++){ //.. for each block i ...
+            System.out.println("METHOD NAME: " + methodNameList.get(i-1));
+            for(int j=0;j<methodBlocksList.get(i).getStatements().size();j++){ //... for each statement j of block i
+                //Se il j-esimo statement è un IF
+                if(methodBlocksList.get(i).getStatements().get(j).isIfStmt()){ 
+                    IfStmt ifStatement = methodBlocksList.get(i).getStatements().get(j).asIfStmt();
+                    System.out.println(j + " if: " + ifStatement.getCondition());
+                    System.out.println("then: ");
+                    
+                    //ramo THEN
+                    for(int h=0;h<ifStatement.getThenStmt().asBlockStmt().getStatements().size();h++){
+                        System.out.println("\t" + j + "." + h + " " + ifStatement.getThenStmt().asBlockStmt().getStatements().get(h));
+                    }
+                    
+                    //ramo ELSE (se presente)
+                    if(ifStatement.hasElseBlock()){
+                        System.out.println("else:");
+                        for(int h=0;h<ifStatement.getElseStmt().get().asBlockStmt().getStatements().size();h++){
+                            System.out.println("\t" + j + "." + h + " " + ifStatement.getElseStmt().get().asBlockStmt().getStatements().get(h));
+                        }
+                    }
+                    
+                }
+                else System.out.println(j + ". " + methodBlocksList.get(i).getStatements().get(j));
+            }
+            System.out.println("\n");
         }
-    }
-
-    //First Visitor: print all Method Name of my class example "Car"
-    private static class MethodNamePrinter extends VoidVisitorAdapter<Void>{
         
-        //We want to override the visit method of class VoidVisitorAdapter, for the type we are interested in (MethodDeclaration) 
-        @Override
-        public void visit(MethodDeclaration md, Void arg){
-            super.visit(md, arg);
-            System.out.println("Method Name: " + md.getName());
-        }
     }
 
-    //Second Visitor: we want to collect in a list all Method name of our class example "Car"
-    private static class MethodNameCollector extends VoidVisitorAdapter<List<String>>{
-
+    private static class MethodName extends VoidVisitorAdapter<List<String>>{
         @Override
-        public void visit(MethodDeclaration md, List<String> collector) {
-            super.visit(md, collector);
+        public void visit(MethodDeclaration md, List<String> collector){
             collector.add(md.getNameAsString());
         }
     }
 
-    //Third Visitor: we want to collect all statements for all method in a List
-    private static class MethodStatementsCollector extends VoidVisitorAdapter<List<BlockStmt>>{
+    private static class MethodBlockStmt extends VoidVisitorAdapter<List<BlockStmt>>{
         @Override
-        public void visit(MethodDeclaration md, List<BlockStmt> collector){
-            super.visit(md, collector);
-            collector.add(md.getBody().get());
+        public void visit(BlockStmt bs, List<BlockStmt> collector){
+            collector.add(bs);
         }
     }
+    
 }
