@@ -49,7 +49,7 @@ public class Visitor {
     }
 
     //Dato un blocco di statement, crea una lista di stringhe contenente per ogni statement la sua tipologia 
-    public static List<String> createListOfTypeStatement(BlockStmt block){
+    public List<String> createListOfTypeStatement(BlockStmt block){
         List<String> statementTypeList = new ArrayList<>();
         for(int i=0;i<block.getStatements().size();i++){
             statementTypeList.add(getStatementType(block.getStatements().get(i)));     

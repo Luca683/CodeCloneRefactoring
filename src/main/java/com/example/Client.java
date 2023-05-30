@@ -1,7 +1,7 @@
 package com.example;
 
 import java.io.FileInputStream;
-//import java.util.ArrayList;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.github.javaparser.StaticJavaParser;
@@ -15,6 +15,7 @@ public class Client {
         CompilationUnit cu = StaticJavaParser.parse(new FileInputStream(FILE_PATH));
         
         Visitor v = new Visitor(cu);
+        SimilarityAnalyzer analyzer = new SimilarityAnalyzer();
 
         /* to do list
          1. Tramite l'oggetto cu, estraggo una lista con tutti i blockStmt di ogni metodo
@@ -23,7 +24,23 @@ public class Client {
          4. L'analizzatore avrà un metodo che prende 2 liste e le confronta, quindi man mano gliele passo
          */
         
-        //List<BlockStmt> methodBlocksList = v.extractBlockStatementsMethod();
+        List<BlockStmt> methodBlocksList = v.extractBlockStatementsMethod();
+
+        List<String> statementTypeFirstList = new ArrayList<>();
+        List<String> statementTypeSecondList = new ArrayList<>();
+
+        for(int i=1;i<methodBlocksList.size()-1;i++){
+            statementTypeFirstList = v.createListOfTypeStatement(methodBlocksList.get(i));
+            /*System.out.println("Metodo "+i+": ");
+            for(int h=0;h<statementTypeFirstList.size();h++){
+                System.out.println(statementTypeFirstList.get(h));
+            }*/
+            for(int j=i+1;j<methodBlocksList.size();j++){
+                statementTypeSecondList = v.createListOfTypeStatement(methodBlocksList.get(j));
+                double similarity = analyzer.calculateSimilarity(statementTypeFirstList, statementTypeSecondList);
+                System.out.println("Analisi similarità tra metodi "+i+" e "+j+": "+similarity+"%");
+            }
+        }
 
     }
 }

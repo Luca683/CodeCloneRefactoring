@@ -4,7 +4,7 @@ import java.util.List;
 
 public class SimilarityAnalyzer {
     
-    public int levenshteinDistance(List<String> m1, List<String> m2){
+    public static int levenshteinDistance(List<String> m1, List<String> m2){
         int[][] matrix = new int[m1.size() + 1][m2.size() + 1];
 
         for(int i=0;i<=m1.size();i++) matrix[i][0] = i;
@@ -20,5 +20,12 @@ public class SimilarityAnalyzer {
         }
 
         return matrix[m1.size()][m2.size()];
+    }
+
+    public double calculateSimilarity(List<String> m1, List<String> m2){
+        int distance = levenshteinDistance(m1, m2);
+        int maxLength = Math.max(m1.size(), m2.size());
+        
+        return ((double) (maxLength - distance) / maxLength) * 100;
     }
 }
