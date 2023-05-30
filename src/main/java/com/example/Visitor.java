@@ -57,14 +57,18 @@ public class Visitor {
         }
         //Casi induttivi
         else if(st.isForStmt()){
-            ForStmt forStmt = (ForStmt) st;
-            ForStmtVisitor visitor = new ForStmtVisitor(list);
-            visitor.visit(forStmt, null);
+            list.add("ForStmt");
+            BlockStmt blockStmt = st.asForStmt().getBody().asBlockStmt(); //Estraggo il blocco relativo al ciclo for
+            BlockStmtVisitor visitor = new BlockStmtVisitor(list); 
+            visitor.visit(blockStmt, null); //Visito il blocco estratto e aggiungo alla lista tutti i tipo dei suoi statements
+            list.add("EndFor");
         }
         else if(st.isWhileStmt()){
-            WhileStmt whileStmt = (WhileStmt) st;
-            WhileStmtVisitor visitor = new WhileStmtVisitor(list);
-            visitor.visit(whileStmt, null);
+            list.add("WhileStmt");
+            BlockStmt blockStmt = st.asWhileStmt().getBody().asBlockStmt();
+            BlockStmtVisitor visitor = new BlockStmtVisitor(list); 
+            visitor.visit(blockStmt, null);
+            list.add("EndWhile");
         }
 
         else list.add(st.getClass().getSimpleName());
@@ -88,41 +92,18 @@ public class Visitor {
         System.out.println("]");
     }
 
-    private static class ForStmtVisitor extends VoidVisitorAdapter<Void>{
+    private static class BlockStmtVisitor extends VoidVisitorAdapter<Void>{
         private List<String> list;
 
-        public ForStmtVisitor(List<String> list) {
+        public BlockStmtVisitor(List<String> list) {
             this.list = list;
         }
 
         @Override
-        public void visit(ForStmt forStmt, Void arg) {
-            Statement body = forStmt.getBody();
-            BlockStmt forBlock = body.asBlockStmt();
-            list.add("ForStmt");
-            for (int i=0;i<forBlock.getStatements().size();i++) {
-                addTypeStatementInList(list, forBlock.getStatements().get(i));
+        public void visit(BlockStmt block, Void arg) {
+            for (int i=0;i<block.getStatements().size();i++) {
+                addTypeStatementInList(list, block.getStatements().get(i));
             }
-            list.add("EndFor");
-        }
-    }
-
-    private static class WhileStmtVisitor extends VoidVisitorAdapter<Void>{
-        private List<String> list;
-
-        public WhileStmtVisitor(List<String> list) {
-            this.list = list;
-        }
-
-        @Override
-        public void visit(WhileStmt whileStmt, Void arg) {
-            Statement body = whileStmt.getBody();
-            BlockStmt whileBlock = body.asBlockStmt();
-            list.add("whileStmt");
-            for (int i=0;i<whileBlock.getStatements().size();i++) {
-                addTypeStatementInList(list, whileBlock.getStatements().get(i));
-            }
-            list.add("EndWhile");
         }
     }
 
