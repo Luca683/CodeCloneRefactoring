@@ -34,8 +34,12 @@ public class Car{
     public String prova(){
         System.out.println("Questo è un metodo che contiene un FOR");
         for(int i=0;i<10;i++){
-            int j = i;
-            System.out.println(j);
+            for(int j=0;j<10;j++){
+                int s = 10;
+                System.out.println(s);
+            }
+            int k = i;
+            System.out.println(k);
         }
         return "Metodo terminato";
     }

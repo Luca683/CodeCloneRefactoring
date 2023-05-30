@@ -94,18 +94,12 @@ public class Visitor {
 
         @Override
         public void visit(ForStmt forStmt, Void arg) {
-            super.visit(forStmt, arg);
             Statement body = forStmt.getBody();
-
-            if (body.isBlockStmt()) {
-                BlockStmt forBlock = body.asBlockStmt();
-                List<Statement> statements = forBlock.getStatements();
-
-                for (Statement statement : statements) {
-                    addTypeStatementInList(list, statement);
-                }
-            } else addTypeStatementInList(list, body);
-            
+            BlockStmt forBlock = body.asBlockStmt();
+            //List<Statement> statements = forBlock.getStatements();
+            for (int i=0;i<forBlock.getStatements().size();i++) {
+                addTypeStatementInList(list, forBlock.getStatements().get(i));
+            }
         }
     }
 
