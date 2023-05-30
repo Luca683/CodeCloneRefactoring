@@ -25,22 +25,28 @@ public class Client {
          */
         
         List<BlockStmt> methodBlocksList = v.extractBlockStatementsMethod();
-
+        List<String> typeStatement = new ArrayList<>();
+        for(int i=1;i<methodBlocksList.size();i++){
+            typeStatement = v.createListOfTypeStatement(methodBlocksList.get(i));
+            for(int j=0;j<typeStatement.size();j++){
+                System.out.println(typeStatement.get(j));
+            }
+            System.out.println("");
+        }
+/*
         List<String> statementTypeFirstList = new ArrayList<>();
         List<String> statementTypeSecondList = new ArrayList<>();
 
         for(int i=1;i<methodBlocksList.size()-1;i++){
             statementTypeFirstList = v.createListOfTypeStatement(methodBlocksList.get(i));
-            /*System.out.println("Metodo "+i+": ");
-            for(int h=0;h<statementTypeFirstList.size();h++){
-                System.out.println(statementTypeFirstList.get(h));
-            }*/
+            v.printTypeStatement(methodBlocksList.get(i));
             for(int j=i+1;j<methodBlocksList.size();j++){
                 statementTypeSecondList = v.createListOfTypeStatement(methodBlocksList.get(j));
+                v.printTypeStatement(methodBlocksList.get(j));
                 double similarity = analyzer.calculateSimilarity(statementTypeFirstList, statementTypeSecondList);
                 System.out.println("Analisi similarità tra metodi "+i+" e "+j+": "+similarity+"%");
             }
         }
-
+*/
     }
 }

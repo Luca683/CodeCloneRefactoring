@@ -30,4 +30,13 @@ public class Car{
         System.out.println("Car color: " + getColor());
         System.out.println("Car speed: " + getSpeed());
     }
+
+    public String prova(){
+        System.out.println("Questo è un metodo che contiene un FOR");
+        for(int i=0;i<10;i++){
+            int j = i;
+            System.out.println(j);
+        }
+        return "Metodo terminato";
+    }
 }
