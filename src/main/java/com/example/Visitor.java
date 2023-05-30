@@ -11,6 +11,7 @@ import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.ExpressionStmt;
 import com.github.javaparser.ast.stmt.ForStmt;
 import com.github.javaparser.ast.stmt.Statement;
+import com.github.javaparser.ast.stmt.WhileStmt;
 
 public class Visitor {
     private CompilationUnit cu;
@@ -34,13 +35,13 @@ public class Visitor {
     }
 
     //Dato uno statement ne restituisce la tipologia sotto forma di stringa
-    private static String getStatementType(Statement st){
+    /*private static String getStatementType(Statement st){
         if(st.isExpressionStmt()){
             ExpressionStmt exp = (ExpressionStmt) st;
             return exp.getExpression().getClass().getSimpleName();
         }
         else return st.getClass().getSimpleName();
-    }
+    }*/
 
     /*Riceve una lista e uno statement (che può essere un'espressione semplice, o complessa come un IfStmt, ForStmt e così via)
         Se lo statement è un'espressione semplice allora nella lista inserisco solo la tipologia di essa.
@@ -56,11 +57,14 @@ public class Visitor {
         }
         //Casi induttivi
         else if(st.isForStmt()){
-            list.add("ForStmt");
             ForStmt forStmt = (ForStmt) st;
             ForStmtVisitor visitor = new ForStmtVisitor(list);
             visitor.visit(forStmt, null);
-            list.add("EndFor");
+        }
+        else if(st.isWhileStmt()){
+            WhileStmt whileStmt = (WhileStmt) st;
+            WhileStmtVisitor visitor = new WhileStmtVisitor(list);
+            visitor.visit(whileStmt, null);
         }
 
         else list.add(st.getClass().getSimpleName());
@@ -70,7 +74,6 @@ public class Visitor {
     public List<String> createListOfTypeStatement(BlockStmt block){
         List<String> statementTypeList = new ArrayList<>();
         for(int i=0;i<block.getStatements().size();i++){
-            //statementTypeList.add(getStatementType(block.getStatements().get(i))); 
             addTypeStatementInList(statementTypeList, block.getStatements().get(i));    
         }
         return statementTypeList;
@@ -96,10 +99,30 @@ public class Visitor {
         public void visit(ForStmt forStmt, Void arg) {
             Statement body = forStmt.getBody();
             BlockStmt forBlock = body.asBlockStmt();
-            //List<Statement> statements = forBlock.getStatements();
+            list.add("ForStmt");
             for (int i=0;i<forBlock.getStatements().size();i++) {
                 addTypeStatementInList(list, forBlock.getStatements().get(i));
             }
+            list.add("EndFor");
+        }
+    }
+
+    private static class WhileStmtVisitor extends VoidVisitorAdapter<Void>{
+        private List<String> list;
+
+        public WhileStmtVisitor(List<String> list) {
+            this.list = list;
+        }
+
+        @Override
+        public void visit(WhileStmt whileStmt, Void arg) {
+            Statement body = whileStmt.getBody();
+            BlockStmt whileBlock = body.asBlockStmt();
+            list.add("whileStmt");
+            for (int i=0;i<whileBlock.getStatements().size();i++) {
+                addTypeStatementInList(list, whileBlock.getStatements().get(i));
+            }
+            list.add("EndWhile");
         }
     }
 

@@ -15,7 +15,7 @@ public class Client {
         CompilationUnit cu = StaticJavaParser.parse(new FileInputStream(FILE_PATH));
         
         Visitor v = new Visitor(cu);
-        SimilarityAnalyzer analyzer = new SimilarityAnalyzer();
+        //SimilarityAnalyzer analyzer = new SimilarityAnalyzer();
 
         /* to do list
          1. Tramite l'oggetto cu, estraggo una lista con tutti i blockStmt di ogni metodo

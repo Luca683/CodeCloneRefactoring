@@ -41,6 +41,30 @@ public class Car{
             int k = i;
             System.out.println(k);
         }
+        int stop = 10;
+        do{
+            stop--;
+        } while(stop!=10);
+
+        int flag = 1;
+        while(flag == 1){
+            flag = 0;
+            System.out.println("Endwhile");
+        }
+        int varSwitch = 2;
+        switch(varSwitch){
+            case 1:
+                System.out.println("1");
+                break;
+            case 2:
+                System.out.println("1");
+                break;
+            case 3:
+                System.out.println("1");
+                break;
+            default:
+                System.out.println("No value");
+        }
         return "Metodo terminato";
     }
 }
