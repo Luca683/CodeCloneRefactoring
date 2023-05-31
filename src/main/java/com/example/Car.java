@@ -65,6 +65,18 @@ public class Car{
             default:
                 System.out.println("No value");
         }
+
+        String[] cars = {"Volvo", "BMW", "Ford", "Mazda"};
+        for (String i : cars) {
+            System.out.println(i);
+        }
+
+        try {
+            int[] myNumbers = {1, 2, 3};
+            System.out.println(myNumbers[10]);
+        } catch (Exception e) {
+            System.out.println("Something went wrong.");
+        }
         return "Metodo terminato";
     }
 }

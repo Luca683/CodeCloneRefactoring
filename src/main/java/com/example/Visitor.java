@@ -68,8 +68,15 @@ public class Visitor {
             visitor.visit(blockStmt, null);
             list.add("EndWhile");
         }
-
-        else list.add(st.getClass().getSimpleName());
+        else if(st.isForEachStmt()){
+            list.add("ForEachStmt");
+            BlockStmt blockStmt = st.asForEachStmt().getBody().asBlockStmt();
+            BlockStmtVisitor visitor = new BlockStmtVisitor(list);
+            visitor.visit(blockStmt, null);
+            list.add("EndForEach");
+        }
+        
+        else list.add(st.getClass().getSimpleName()); //Da togliere appena avrò considerato tutti i possibili casi
     }
 
     //Dato un blocco di statement, crea una lista di stringhe contenente per ogni statement la sua tipologia 
