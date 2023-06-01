@@ -79,4 +79,19 @@ public class Car{
         }
         return "Metodo terminato";
     }
+
+    public void provaIfElse(int flag){
+        if(flag==1){
+            System.out.println("flag = 1");
+        }
+        else if(flag==2){
+            flag = 10;
+            System.out.println("flag = 2");
+        }
+        else if(flag==3){
+            System.out.println("flag = 3");
+        }
+        else System.out.println("flag = 4");
+
+    }
 }

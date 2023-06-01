@@ -75,7 +75,25 @@ public class Visitor {
             visitor.visit(blockStmt, null);
             list.add("EndForEach");
         }
-        
+        //Da rivedere la parte sull'ElseBranch
+        else if(st.isIfStmt()){
+            list.add("IfStmt");
+            BlockStmt blockStmt = st.asIfStmt().getThenStmt().asBlockStmt();
+            BlockStmtVisitor visitor = new BlockStmtVisitor(list);
+            visitor.visit(blockStmt, null);
+            list.add("EndIf");
+            if(st.asIfStmt().hasElseBlock()){ //Se l'else è presente ma è caratterizzato da un BlockStmt
+                list.add("ElseStmt");
+                blockStmt = st.asIfStmt().getElseStmt().get().asBlockStmt();
+                visitor.visit(blockStmt, null);
+                list.add("EndElse");
+            }
+            else if(st.asIfStmt().hasElseBranch()){ //Se l'else è presente e ha un singolo statement
+                list.add("ElseStmt");
+                addTypeStatementInList(list, st.asIfStmt().getElseStmt().get());
+                list.add("EndElse");
+            }
+        }
         else list.add(st.getClass().getSimpleName()); //Da togliere appena avrò considerato tutti i possibili casi
     }
 
