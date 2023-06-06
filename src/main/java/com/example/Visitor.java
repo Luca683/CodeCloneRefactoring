@@ -10,6 +10,7 @@ import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 import com.github.javaparser.ast.visitor.VoidVisitor;
 import com.github.javaparser.ast.stmt.BlockStmt;
+import com.github.javaparser.ast.stmt.CatchClause;
 import com.github.javaparser.ast.stmt.ExpressionStmt;
 import com.github.javaparser.ast.stmt.Statement;
 import com.github.javaparser.ast.stmt.SwitchEntry;
@@ -112,6 +113,20 @@ public class Visitor {
             list.add("EndSwitch");
         }
         //try catch
+        else if(st.isTryStmt()){
+            list.add("TryStmt");
+            BlockStmt blockStmt = st.asTryStmt().getTryBlock();
+            BlockStmtVisitor visitor = new BlockStmtVisitor(list);
+            visitor.visit(blockStmt, null);
+            list.add("EndTryStmt");
+            NodeList<CatchClause> catchBlocks = st.asTryStmt().getCatchClauses();
+            for(int i=0;i<catchBlocks.size();i++){
+                list.add("CatchClause");
+                blockStmt = catchBlocks.get(i).getBody().asBlockStmt();
+                visitor.visit(blockStmt, null);
+                list.add("EndCatchClause");
+            }
+        }
         else list.add(st.getClass().getSimpleName()); //Da togliere appena avrò considerato tutti i possibili casi
     }
 

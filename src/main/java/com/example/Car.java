@@ -79,7 +79,9 @@ public class Car{
         try {
             int[] myNumbers = {1, 2, 3};
             System.out.println(myNumbers[10]);
-        } catch (Exception e) {
+        } catch(ArrayIndexOutOfBoundsException e){
+            System.out.println("Array error");
+        } catch (Exception e){
             System.out.println("Something went wrong.");
         }
         return "Metodo terminato";
