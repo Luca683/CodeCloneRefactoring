@@ -15,7 +15,9 @@ public class Client {
         CompilationUnit cu = StaticJavaParser.parse(new FileInputStream(FILE_PATH));
         
         Visitor v = new Visitor(cu);
-        //SimilarityAnalyzer analyzer = new SimilarityAnalyzer();
+        List<String> methodNameList = v.extractNameMethod();
+
+        SimilarityAnalyzer analyzer = new SimilarityAnalyzer();
 
         /* to do list
          1. Tramite l'oggetto cu, estraggo una lista con tutti i blockStmt di ogni metodo
@@ -25,28 +27,30 @@ public class Client {
          */
         
         List<BlockStmt> methodBlocksList = v.extractBlockStatementsMethod();
-        List<String> typeStatement = new ArrayList<>();
+        /*List<String> typeStatement = new ArrayList<>();
         for(int i=1;i<methodBlocksList.size();i++){
             typeStatement = v.createListOfTypeStatement(methodBlocksList.get(i));
             for(int j=0;j<typeStatement.size();j++){
                 System.out.println(typeStatement.get(j));
             }
             System.out.println("");
-        }
-/*
+        }*/
+
         List<String> statementTypeFirstList = new ArrayList<>();
         List<String> statementTypeSecondList = new ArrayList<>();
 
         for(int i=1;i<methodBlocksList.size()-1;i++){
             statementTypeFirstList = v.createListOfTypeStatement(methodBlocksList.get(i));
-            v.printTypeStatement(methodBlocksList.get(i));
             for(int j=i+1;j<methodBlocksList.size();j++){
                 statementTypeSecondList = v.createListOfTypeStatement(methodBlocksList.get(j));
+                System.out.println("Lista type statements method: "+methodNameList.get(i-1));
+                v.printTypeStatement(methodBlocksList.get(i));
+                System.out.println("Lista type statements method: "+methodNameList.get(j-1));
                 v.printTypeStatement(methodBlocksList.get(j));
                 double similarity = analyzer.calculateSimilarity(statementTypeFirstList, statementTypeSecondList);
-                System.out.println("Analisi similarità tra metodi "+i+" e "+j+": "+similarity+"%");
+                System.out.println("Analisi similarità: "+similarity+"%\n\n");
             }
         }
-*/
+
     }
 }

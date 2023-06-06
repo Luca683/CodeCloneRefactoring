@@ -36,15 +36,6 @@ public class Visitor {
         return methodBlocksList;
     }
 
-    //Dato uno statement ne restituisce la tipologia sotto forma di stringa
-    /*private static String getStatementType(Statement st){
-        if(st.isExpressionStmt()){
-            ExpressionStmt exp = (ExpressionStmt) st;
-            return exp.getExpression().getClass().getSimpleName();
-        }
-        else return st.getClass().getSimpleName();
-    }*/
-
     /*Riceve una lista e uno statement (che può essere un'espressione semplice, o complessa come un IfStmt, ForStmt e così via)
         Se lo statement è un'espressione semplice allora nella lista inserisco solo la tipologia di essa.
         Se lo statement è un'espressione complessa allora nella lista inserirò la tipologia di ogni statement annidato
@@ -112,7 +103,6 @@ public class Visitor {
             visitor.visitListSwitchEntry(caseSwitch, null);
             list.add("EndSwitch");
         }
-        //try catch
         else if(st.isTryStmt()){
             list.add("TryStmt");
             BlockStmt blockStmt = st.asTryStmt().getTryBlock();
@@ -143,9 +133,10 @@ public class Visitor {
         List<String> myList = createListOfTypeStatement(block);
         System.out.print("[ ");
         for(int i=0;i<myList.size();i++){
-            System.out.print(myList.get(i)+" ");
+            System.out.print(myList.get(i));
+            if(i<myList.size()-1) System.out.print(", ");
         }
-        System.out.println("]");
+        System.out.println(" ]");
     }
 
     private static class BlockStmtVisitor extends VoidVisitorAdapter<Void>{
