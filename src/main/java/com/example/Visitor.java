@@ -4,12 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.github.javaparser.ast.CompilationUnit;
+import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.MethodDeclaration;
+import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 import com.github.javaparser.ast.visitor.VoidVisitor;
 import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.ExpressionStmt;
 import com.github.javaparser.ast.stmt.Statement;
+import com.github.javaparser.ast.stmt.SwitchEntry;
 
 public class Visitor {
     private CompilationUnit cu;
@@ -75,6 +78,13 @@ public class Visitor {
             visitor.visit(blockStmt, null);
             list.add("EndForEach");
         }
+        else if(st.isDoStmt()){
+            list.add("DoStmt");
+            BlockStmt blockStmt = st.asDoStmt().getBody().asBlockStmt();
+            BlockStmtVisitor visitor = new BlockStmtVisitor(list);
+            visitor.visit(blockStmt, null);
+            list.add("WhileStmt"); //E' corretto iserire "WhileStmt" come delimitatore? Oppure meglio "EndDo"? 
+        }
         //Da rivedere la parte sull'ElseBranch
         else if(st.isIfStmt()){
             list.add("IfStmt");
@@ -94,6 +104,14 @@ public class Visitor {
                 list.add("EndElse");
             }
         }
+        else if(st.isSwitchStmt()){
+            list.add("SwitchStmt");
+            NodeList<SwitchEntry> caseSwitch = st.asSwitchStmt().getEntries();
+            SwitchEntryVisitor visitor = new SwitchEntryVisitor(list);
+            visitor.visitListSwitchEntry(caseSwitch, null);
+            list.add("EndSwitch");
+        }
+        //try catch
         else list.add(st.getClass().getSimpleName()); //Da togliere appena avrò considerato tutti i possibili casi
     }
 
@@ -126,6 +144,39 @@ public class Visitor {
         public void visit(BlockStmt block, Void arg) {
             for (int i=0;i<block.getStatements().size();i++) {
                 addTypeStatementInList(list, block.getStatements().get(i));
+            }
+        }
+    }
+
+    private static class SwitchEntryVisitor extends VoidVisitorAdapter<Void>{
+        private List<String> list;
+
+        public SwitchEntryVisitor(List<String> list){
+            this.list = list;
+        }
+
+        @Override
+        public void visit(SwitchEntry switchEntry, Void arg){
+            NodeList<Statement> entryStatements = switchEntry.getStatements();
+            if (entryStatements.isNonEmpty()){
+                for(int i=0;i<entryStatements.size();i++){
+                    Statement statement = entryStatements.get(i);
+                    addTypeStatementInList(list, statement);
+                }
+            }
+        }
+
+        public void visitListSwitchEntry(NodeList<SwitchEntry> switchEntries, Void arg) {
+            for (SwitchEntry switchEntry : switchEntries) {
+                List<Expression> labels = switchEntry.getLabels();
+                /*for (Expression label : labels) {
+                    String labelText = label.toString();
+                    list.add("Case: " + labelText);
+                }*/ //Usando questo codice insieme a "Case" viene stampata anche la label (quindi nel nostro caso Case: 1, Case: 2 ecc..) 
+                if(labels.isEmpty()) list.add("DefaultStmt");
+                else list.add("CaseStmt");
+    
+                visit(switchEntry, arg);
             }
         }
     }

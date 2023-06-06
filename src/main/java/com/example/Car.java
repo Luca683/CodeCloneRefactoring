@@ -44,6 +44,7 @@ public class Car{
         int stop = 10;
         do{
             stop--;
+            System.out.println(stop);
         } while(stop!=10);
 
         int flag = 1;
@@ -57,6 +58,10 @@ public class Car{
                 System.out.println("1");
                 break;
             case 2:
+                if(varSwitch==2){
+                    System.out.println("Hello");
+                    System.out.println("World");
+                }
                 System.out.println("1");
                 break;
             case 3:
