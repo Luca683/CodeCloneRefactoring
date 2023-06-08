@@ -27,14 +27,6 @@ public class Client {
          */
         
         List<BlockStmt> methodBlocksList = v.extractBlockStatementsMethod();
-        /*List<String> typeStatement = new ArrayList<>();
-        for(int i=1;i<methodBlocksList.size();i++){
-            typeStatement = v.createListOfTypeStatement(methodBlocksList.get(i));
-            for(int j=0;j<typeStatement.size();j++){
-                System.out.println(typeStatement.get(j));
-            }
-            System.out.println("");
-        }*/
 
         List<String> statementTypeFirstList = new ArrayList<>();
         List<String> statementTypeSecondList = new ArrayList<>();
@@ -43,12 +35,12 @@ public class Client {
             statementTypeFirstList = v.createListOfTypeStatement(methodBlocksList.get(i));
             for(int j=i+1;j<methodBlocksList.size();j++){
                 statementTypeSecondList = v.createListOfTypeStatement(methodBlocksList.get(j));
-                System.out.println("Lista type statements method: "+methodNameList.get(i-1));
+                System.out.println("Lista type statements method: "+methodNameList.get(i-1)+"()");
                 v.printTypeStatement(methodBlocksList.get(i));
-                System.out.println("Lista type statements method: "+methodNameList.get(j-1));
+                System.out.println("Lista type statements method: "+methodNameList.get(j-1)+"()");
                 v.printTypeStatement(methodBlocksList.get(j));
                 double similarity = analyzer.calculateSimilarity(statementTypeFirstList, statementTypeSecondList);
-                System.out.println("Analisi similarità: "+similarity+"%\n\n");
+                System.out.println("Analisi similarita': "+similarity+"%\n\n");
             }
         }
 
