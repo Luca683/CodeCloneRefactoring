@@ -75,7 +75,7 @@ public class Visitor {
             BlockStmt blockStmt = st.asDoStmt().getBody().asBlockStmt();
             BlockStmtVisitor visitor = new BlockStmtVisitor(list);
             visitor.visit(blockStmt, null);
-            list.add("WhileStmt"); //E' corretto iserire "WhileStmt" come delimitatore? Oppure meglio "EndDo"? 
+            list.add("EndDo"); //E' corretto iserire "WhileStmt" come delimitatore? Oppure meglio "EndDo"? 
         }
         //Da rivedere la parte sull'ElseBranch
         else if(st.isIfStmt()){
@@ -94,7 +94,7 @@ public class Visitor {
                 list.add("ElseStmt");
                 addTypeStatementInList(list, st.asIfStmt().getElseStmt().get());
                 list.add("EndElse");
-            }
+            } //Provare la funzione getElseStatement() -> Optional
         }
         else if(st.isSwitchStmt()){
             list.add("SwitchStmt");
@@ -116,7 +116,7 @@ public class Visitor {
                 visitor.visit(blockStmt, null);
                 list.add("EndCatchClause");
             }
-        }
+        } // Caso Finally -> Optional da verificare
         else list.add(st.getClass().getSimpleName()); //Da togliere appena avrò considerato tutti i possibili casi
     }
 
@@ -192,7 +192,7 @@ public class Visitor {
         public void visit(MethodDeclaration md, List<String> collector){
             collector.add(md.getNameAsString());
         }
-    }
+    } // Utilizzare Questo visitatore per estrarre pure i body dei metodi
 
     private static class MethodBlockStmt extends VoidVisitorAdapter<List<BlockStmt>>{
         @Override
