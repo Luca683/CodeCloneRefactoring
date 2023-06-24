@@ -75,7 +75,7 @@ public class Visitor {
             BlockStmt blockStmt = st.asDoStmt().getBody().asBlockStmt();
             BlockStmtVisitor visitor = new BlockStmtVisitor(list);
             visitor.visit(blockStmt, null);
-            list.add("EndDo"); //E' corretto iserire "WhileStmt" come delimitatore? Oppure meglio "EndDo"? 
+            list.add("EndDo");
         }
         //Da rivedere la parte sull'ElseBranch
         else if(st.isIfStmt()){
@@ -104,11 +104,13 @@ public class Visitor {
             list.add("EndSwitch");
         }
         else if(st.isTryStmt()){
+            //try
             list.add("TryStmt");
             BlockStmt blockStmt = st.asTryStmt().getTryBlock();
             BlockStmtVisitor visitor = new BlockStmtVisitor(list);
             visitor.visit(blockStmt, null);
             list.add("EndTryStmt");
+            //catch
             NodeList<CatchClause> catchBlocks = st.asTryStmt().getCatchClauses();
             for(int i=0;i<catchBlocks.size();i++){
                 list.add("CatchClause");
@@ -116,7 +118,14 @@ public class Visitor {
                 visitor.visit(blockStmt, null);
                 list.add("EndCatchClause");
             }
-        } // Caso Finally -> Optional da verificare
+            //finally
+            BlockStmt finallyBlock = st.asTryStmt().getFinallyBlock().orElse(null);
+            if(finallyBlock != null){
+                list.add("FinallyStmt");
+                visitor.visit(finallyBlock, null);
+                list.add("EndFinallyStmt");
+            }  
+        } 
         else list.add(st.getClass().getSimpleName()); //Da togliere appena avrò considerato tutti i possibili casi
     }
 
@@ -174,14 +183,9 @@ public class Visitor {
 
         public void visitListSwitchEntry(NodeList<SwitchEntry> switchEntries, Void arg) {
             for (SwitchEntry switchEntry : switchEntries) {
-                List<Expression> labels = switchEntry.getLabels();
-                /*for (Expression label : labels) {
-                    String labelText = label.toString();
-                    list.add("Case: " + labelText);
-                }*/ //Usando questo codice insieme a "Case" viene stampata anche la label (quindi nel nostro caso Case: 1, Case: 2 ecc..) 
+                List<Expression> labels = switchEntry.getLabels(); 
                 if(labels.isEmpty()) list.add("DefaultStmt");
                 else list.add("CaseStmt");
-    
                 visit(switchEntry, arg);
             }
         }
@@ -192,13 +196,13 @@ public class Visitor {
         public void visit(MethodDeclaration md, List<String> collector){
             collector.add(md.getNameAsString());
         }
-    } // Utilizzare Questo visitatore per estrarre pure i body dei metodi
-
+    }
+    
     private static class MethodBlockStmt extends VoidVisitorAdapter<List<BlockStmt>>{
         @Override
-        public void visit(BlockStmt bs, List<BlockStmt> collector){
-            collector.add(bs);
+        public void visit(MethodDeclaration md, List<BlockStmt> collector){
+            collector.add(md.getBody().orElse(null));
         }
     }
-
+     
 }

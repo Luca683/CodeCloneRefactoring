@@ -26,6 +26,6 @@ public class SimilarityAnalyzer {
         int distance = levenshteinDistance(m1, m2);
         int maxLength = Math.max(m1.size(), m2.size());
         double value = ((double) (maxLength - distance) / maxLength) * 100;
-        return Math.round(value * 10000.0) / 10000.0; // Fare una round del risultato 
+        return Math.round(value * 10000.0) / 10000.0;
     }
 }

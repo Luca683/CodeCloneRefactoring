@@ -83,6 +83,9 @@ public class Car{
             System.out.println("Array error");
         } catch (Exception e){
             System.out.println("Something went wrong.");
+        } finally{
+            System.out.println("Finally");
+            System.out.println("Block");
         }
         return "Metodo terminato";
     }
