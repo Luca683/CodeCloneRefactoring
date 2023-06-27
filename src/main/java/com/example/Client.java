@@ -32,9 +32,9 @@ public class Client {
         List<String> statementTypeSecondList = new ArrayList<>();
         
         for(int i=0;i<methodBlocksList.size();i++){
-            statementTypeFirstList = v.createListOfTypeStatement(methodBlocksList.get(i));
-           for(int j=i+1;j<methodBlocksList.size();j++){
-                statementTypeSecondList = v.createListOfTypeStatement(methodBlocksList.get(j));
+            statementTypeFirstList = Visitor.createListOfTypeStatement(methodBlocksList.get(i));
+            for(int j=i+1;j<methodBlocksList.size();j++){
+                statementTypeSecondList = Visitor.createListOfTypeStatement(methodBlocksList.get(j));
                 System.out.println("Lista type statements method: "+methodNameList.get(i)+"()");
                 v.printTypeStatement(methodBlocksList.get(i));
                 System.out.println("Lista type statements method: "+methodNameList.get(j)+"()");

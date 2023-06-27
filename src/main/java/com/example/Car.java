@@ -101,7 +101,10 @@ public class Car{
         else if(flag==3){
             System.out.println("flag = 3");
         }
-        else System.out.println("flag = 4");
+        else{
+            System.out.println("ElseBlock");
+            System.out.println("flag = 4");
+        }
 
     }
 }
