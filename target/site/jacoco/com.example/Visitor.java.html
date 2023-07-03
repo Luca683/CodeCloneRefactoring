@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Visitor.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">CodeCloneRefactoring</a> &gt; <a href="index.source.html" class="el_package">com.example</a> &gt; <span class="el_source">Visitor.java</span></div><h1>Visitor.java</h1><pre class="source lang-java linenums">package com.example;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.github.javaparser.ast.CompilationUnit;
+import com.github.javaparser.ast.NodeList;
+import com.github.javaparser.ast.body.MethodDeclaration;
+import com.github.javaparser.ast.expr.Expression;
+import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
+import com.github.javaparser.ast.visitor.VoidVisitor;
+import com.github.javaparser.ast.stmt.BlockStmt;
+import com.github.javaparser.ast.stmt.CatchClause;
+import com.github.javaparser.ast.stmt.ExpressionStmt;
+import com.github.javaparser.ast.stmt.Statement;
+import com.github.javaparser.ast.stmt.SwitchEntry;
+
+public class Visitor {
+    private CompilationUnit cu;
+
+<span class="fc" id="L21">    public Visitor(CompilationUnit cu){</span>
+<span class="fc" id="L22">        this.cu = cu;</span>
+<span class="fc" id="L23">    }</span>
+
+    public List&lt;String&gt; extractNameMethod(){
+<span class="fc" id="L26">        List&lt;String&gt; methodNameList = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L27">        VoidVisitor&lt;List&lt;String&gt;&gt; methodNameVisitor = new MethodName();</span>
+<span class="fc" id="L28">        methodNameVisitor.visit(cu, methodNameList);</span>
+<span class="fc" id="L29">        return methodNameList;</span>
+    }
+
+    public List&lt;BlockStmt&gt; extractBlockStatementsMethod(){
+<span class="nc" id="L33">        List&lt;BlockStmt&gt; methodBlocksList = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L34">        VoidVisitor&lt;List&lt;BlockStmt&gt;&gt; methodBlockStmtVisitor = new MethodBlockStmt();</span>
+<span class="nc" id="L35">        methodBlockStmtVisitor.visit(cu, methodBlocksList);</span>
+<span class="nc" id="L36">        return methodBlocksList;</span>
+    }
+
+    public static void scanComplexStatement(Statement st, List&lt;String&gt; list){
+<span class="nc" id="L40">        String statementType = st.getClass().getSimpleName();</span>
+<span class="nc" id="L41">        BlockStmt blockStmt = null;</span>
+<span class="nc" id="L42">        list.add(statementType);</span>
+<span class="nc bnc" id="L43" title="All 2 branches missed.">        if(st.isForStmt()) blockStmt = st.asForStmt().getBody().asBlockStmt();</span>
+<span class="nc bnc" id="L44" title="All 2 branches missed.">        else if(st.isWhileStmt()) blockStmt = st.asWhileStmt().getBody().asBlockStmt();</span>
+<span class="nc bnc" id="L45" title="All 2 branches missed.">        else if(st.isForEachStmt()) blockStmt = st.asForEachStmt().getBody().asBlockStmt();</span>
+<span class="nc bnc" id="L46" title="All 2 branches missed.">        else if(st.isDoStmt()) blockStmt = st.asDoStmt().getBody().asBlockStmt();</span>
+<span class="nc bnc" id="L47" title="All 2 branches missed.">        else if(st.isIfStmt()) blockStmt = st.asIfStmt().getThenStmt().asBlockStmt();</span>
+<span class="nc bnc" id="L48" title="All 2 branches missed.">        else if(st.isTryStmt()) blockStmt = st.asTryStmt().getTryBlock();</span>
+<span class="nc bnc" id="L49" title="All 2 branches missed.">        if(blockStmt != null)</span>
+            //Dato un nuovo blocco, creo una nuova lista contenente la tipologia di tutti i suoi statement e la concateno a quella principale
+<span class="nc" id="L51">            list.addAll(createListOfTypeStatement(blockStmt));</span>
+<span class="nc" id="L52">        list.add(&quot;End&quot;+statementType);</span>
+
+<span class="nc bnc" id="L54" title="All 2 branches missed.">        if(st.isIfStmt()){</span>
+            //else
+<span class="nc bnc" id="L56" title="All 2 branches missed.">            if(st.asIfStmt().hasElseBranch()) {</span>
+<span class="nc" id="L57">                list.add(&quot;ElseStmt&quot;);</span>
+<span class="nc" id="L58">                Statement elseStmt = st.asIfStmt().getElseStmt().get();</span>
+<span class="nc bnc" id="L59" title="All 2 branches missed.">                if(elseStmt.isBlockStmt()) {</span>
+<span class="nc" id="L60">                    list.addAll(createListOfTypeStatement(elseStmt.asBlockStmt()));</span>
+                } else {
+<span class="nc" id="L62">                    addTypeStatementInList(list, elseStmt);</span>
+                }
+<span class="nc" id="L64">                list.add(&quot;EndElseStmt&quot;);</span>
+<span class="nc" id="L65">            }</span>
+        }
+<span class="nc bnc" id="L67" title="All 2 branches missed.">        else if(st.isTryStmt()){</span>
+            //catch
+<span class="nc" id="L69">            NodeList&lt;CatchClause&gt; catchBlocks = st.asTryStmt().getCatchClauses();</span>
+<span class="nc bnc" id="L70" title="All 2 branches missed.">            for(int i=0;i&lt;catchBlocks.size();i++){</span>
+<span class="nc" id="L71">                list.add(&quot;CatchClause&quot;);</span>
+<span class="nc" id="L72">                blockStmt = catchBlocks.get(i).getBody().asBlockStmt();</span>
+<span class="nc" id="L73">                list.addAll(createListOfTypeStatement(blockStmt));</span>
+<span class="nc" id="L74">                list.add(&quot;EndCatchClause&quot;);</span>
+            }
+            //finally
+<span class="nc" id="L77">            blockStmt = st.asTryStmt().getFinallyBlock().orElse(null);</span>
+<span class="nc bnc" id="L78" title="All 2 branches missed.">            if(blockStmt != null){</span>
+<span class="nc" id="L79">                list.add(&quot;FinallyStmt&quot;);</span>
+<span class="nc" id="L80">                list.addAll(createListOfTypeStatement(blockStmt));</span>
+<span class="nc" id="L81">                list.add(&quot;EndFinallyStmt&quot;);</span>
+            }
+        }
+<span class="nc" id="L84">    }</span>
+
+    public static void addTypeStatementInList(List&lt;String&gt; list, Statement st){
+<span class="nc bnc" id="L87" title="All 2 branches missed.">        if(st.isExpressionStmt()){</span>
+<span class="nc" id="L88">            ExpressionStmt exp = (ExpressionStmt) st;</span>
+<span class="nc" id="L89">            list.add(exp.getExpression().getClass().getSimpleName());</span>
+<span class="nc" id="L90">        }</span>
+<span class="nc bnc" id="L91" title="All 2 branches missed.">        else if(st.isSwitchStmt()){</span>
+<span class="nc" id="L92">            list.add(&quot;SwitchStmt&quot;);</span>
+<span class="nc" id="L93">            NodeList&lt;SwitchEntry&gt; caseSwitch = st.asSwitchStmt().getEntries();</span>
+<span class="nc" id="L94">            SwitchEntryVisitor visitor = new SwitchEntryVisitor(list);</span>
+<span class="nc" id="L95">            visitor.visitListSwitchEntry(caseSwitch, null);</span>
+<span class="nc" id="L96">            list.add(&quot;EndSwitchStmt&quot;);</span>
+<span class="nc" id="L97">        }</span>
+<span class="nc bnc" id="L98" title="All 12 branches missed.">        else if(st.isForStmt() || st.isWhileStmt() || st.isForEachStmt() || st.isDoStmt() || st.isIfStmt() || st.isTryStmt()){</span>
+<span class="nc" id="L99">            scanComplexStatement(st, list);</span>
+        }
+<span class="nc" id="L101">        else list.add(st.getClass().getSimpleName()); //Funziona per returnStmt o breakStmt</span>
+<span class="nc" id="L102">    }</span>
+    
+    //Dato un blocco di statement, crea una lista di stringhe contenente per ogni statement la sua tipologia 
+    public static List&lt;String&gt; createListOfTypeStatement(BlockStmt block){
+<span class="nc" id="L106">        List&lt;String&gt; statementTypeList = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L107" title="All 2 branches missed.">        for(int i=0;i&lt;block.getStatements().size();i++){</span>
+<span class="nc" id="L108">            addTypeStatementInList(statementTypeList, block.getStatements().get(i));    </span>
+        }
+<span class="nc" id="L110">        return statementTypeList;</span>
+    }
+
+    public void printTypeStatement(BlockStmt block){
+<span class="nc" id="L114">        List&lt;String&gt; myList = createListOfTypeStatement(block);</span>
+<span class="nc" id="L115">        System.out.print(&quot;[ &quot;);</span>
+<span class="nc bnc" id="L116" title="All 2 branches missed.">        for(int i=0;i&lt;myList.size();i++){</span>
+<span class="nc" id="L117">            System.out.print(myList.get(i));</span>
+<span class="nc bnc" id="L118" title="All 2 branches missed.">            if(i&lt;myList.size()-1) System.out.print(&quot;, &quot;);</span>
+        }
+<span class="nc" id="L120">        System.out.println(&quot; ]&quot;);</span>
+<span class="nc" id="L121">    }</span>
+
+    private static class SwitchEntryVisitor extends VoidVisitorAdapter&lt;Void&gt;{
+        private List&lt;String&gt; list;
+
+<span class="nc" id="L126">        public SwitchEntryVisitor(List&lt;String&gt; list){</span>
+<span class="nc" id="L127">            this.list = list;</span>
+<span class="nc" id="L128">        }</span>
+
+        @Override
+        public void visit(SwitchEntry switchEntry, Void arg){
+            //Data una entry (case o default) se non vuota la ispeziono
+<span class="nc" id="L133">            NodeList&lt;Statement&gt; entryStatements = switchEntry.getStatements();</span>
+<span class="nc bnc" id="L134" title="All 2 branches missed.">            if(entryStatements.isNonEmpty()){</span>
+<span class="nc bnc" id="L135" title="All 2 branches missed.">                for(int i=0;i&lt;entryStatements.size();i++){</span>
+<span class="nc" id="L136">                    Statement statement = entryStatements.get(i);</span>
+<span class="nc" id="L137">                    addTypeStatementInList(list, statement);</span>
+                }
+            }
+<span class="nc" id="L140">        }</span>
+
+        public void visitListSwitchEntry(NodeList&lt;SwitchEntry&gt; switchEntries, Void arg) {
+            //Per ogni entry di uno switch controllo se è un case o un default
+<span class="nc bnc" id="L144" title="All 2 branches missed.">            for (SwitchEntry switchEntry : switchEntries) {</span>
+<span class="nc" id="L145">                List&lt;Expression&gt; labels = switchEntry.getLabels(); </span>
+<span class="nc bnc" id="L146" title="All 2 branches missed.">                if(labels.isEmpty()) list.add(&quot;DefaultStmt&quot;);</span>
+<span class="nc" id="L147">                else list.add(&quot;CaseStmt&quot;);</span>
+<span class="nc" id="L148">                visit(switchEntry, arg);</span>
+<span class="nc" id="L149">            }</span>
+<span class="nc" id="L150">        }</span>
+    }
+
+    private static class MethodName extends VoidVisitorAdapter&lt;List&lt;String&gt;&gt;{
+        @Override
+        public void visit(MethodDeclaration md, List&lt;String&gt; collector){
+<span class="fc" id="L156">            collector.add(md.getNameAsString());</span>
+<span class="fc" id="L157">        }</span>
+    }
+    
+    private static class MethodBlockStmt extends VoidVisitorAdapter&lt;List&lt;BlockStmt&gt;&gt;{
+        @Override
+        public void visit(MethodDeclaration md, List&lt;BlockStmt&gt; collector){
+<span class="nc" id="L163">            collector.add(md.getBody().orElse(null));</span>
+<span class="nc" id="L164">        }</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

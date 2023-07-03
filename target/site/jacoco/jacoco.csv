@@ -1,0 +1,8 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+CodeCloneRefactoring,com.example,SimilarityAnalyzer,147,0,10,0,14,0,8,0,3,0
+CodeCloneRefactoring,com.example,Visitor,312,22,48,0,64,7,29,2,5,2
+CodeCloneRefactoring,com.example,Visitor.MethodName,0,6,0,0,0,2,0,1,0,1
+CodeCloneRefactoring,com.example,Client,122,0,4,0,19,0,4,0,2,0
+CodeCloneRefactoring,com.example,Visitor.MethodBlockStmt,9,0,0,0,2,0,1,0,1,0
+CodeCloneRefactoring,com.example,Car,251,0,24,0,68,0,23,0,10,0
+CodeCloneRefactoring,com.example,Visitor.SwitchEntryVisitor,63,0,8,0,16,0,7,0,3,0

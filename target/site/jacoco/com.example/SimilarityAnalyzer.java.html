@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SimilarityAnalyzer.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">CodeCloneRefactoring</a> &gt; <a href="index.source.html" class="el_package">com.example</a> &gt; <span class="el_source">SimilarityAnalyzer.java</span></div><h1>SimilarityAnalyzer.java</h1><pre class="source lang-java linenums">package com.example;
+
+import java.util.List;
+
+<span class="nc" id="L5">public class SimilarityAnalyzer {</span>
+    
+    public static int levenshteinDistance(List&lt;String&gt; m1, List&lt;String&gt; m2){
+<span class="nc" id="L8">        int[][] matrix = new int[m1.size() + 1][m2.size() + 1];</span>
+
+<span class="nc bnc" id="L10" title="All 2 branches missed.">        for(int i=0;i&lt;=m1.size();i++) matrix[i][0] = i;</span>
+<span class="nc bnc" id="L11" title="All 2 branches missed.">        for(int j=0;j&lt;=m2.size();j++) matrix[0][j] = j;</span>
+
+        int cost;
+<span class="nc bnc" id="L14" title="All 2 branches missed.">        for(int i=1;i&lt;=m1.size();i++){</span>
+<span class="nc bnc" id="L15" title="All 2 branches missed.">            for(int j=1;j&lt;=m2.size();j++){</span>
+<span class="nc bnc" id="L16" title="All 2 branches missed.">                if(m1.get(i-1).equals(m2.get(j-1))) cost = 0;</span>
+<span class="nc" id="L17">                else cost = 1;</span>
+<span class="nc" id="L18">                matrix[i][j] = Math.min(matrix[i-1][j] + 1, Math.min(matrix[i][j-1] + 1, matrix[i-1][j-1] + cost));</span>
+            }
+        }
+
+<span class="nc" id="L22">        return matrix[m1.size()][m2.size()];</span>
+    }
+
+    public double calculateSimilarity(List&lt;String&gt; m1, List&lt;String&gt; m2){
+<span class="nc" id="L26">        int distance = levenshteinDistance(m1, m2);</span>
+<span class="nc" id="L27">        int maxLength = Math.max(m1.size(), m2.size());</span>
+<span class="nc" id="L28">        double value = ((double) (maxLength - distance) / maxLength) * 100;</span>
+<span class="nc" id="L29">        return Math.round(value * 10000.0) / 10000.0;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>
