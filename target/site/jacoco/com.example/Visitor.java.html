@@ -30,10 +30,10 @@ public class Visitor {
     }
 
     public List&lt;BlockStmt&gt; extractBlockStatementsMethod(){
-<span class="nc" id="L33">        List&lt;BlockStmt&gt; methodBlocksList = new ArrayList&lt;&gt;();</span>
-<span class="nc" id="L34">        VoidVisitor&lt;List&lt;BlockStmt&gt;&gt; methodBlockStmtVisitor = new MethodBlockStmt();</span>
-<span class="nc" id="L35">        methodBlockStmtVisitor.visit(cu, methodBlocksList);</span>
-<span class="nc" id="L36">        return methodBlocksList;</span>
+<span class="fc" id="L33">        List&lt;BlockStmt&gt; methodBlocksList = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L34">        VoidVisitor&lt;List&lt;BlockStmt&gt;&gt; methodBlockStmtVisitor = new MethodBlockStmt();</span>
+<span class="fc" id="L35">        methodBlockStmtVisitor.visit(cu, methodBlocksList);</span>
+<span class="fc" id="L36">        return methodBlocksList;</span>
     }
 
     public static void scanComplexStatement(Statement st, List&lt;String&gt; list){
@@ -84,22 +84,22 @@ public class Visitor {
 <span class="nc" id="L84">    }</span>
 
     public static void addTypeStatementInList(List&lt;String&gt; list, Statement st){
-<span class="nc bnc" id="L87" title="All 2 branches missed.">        if(st.isExpressionStmt()){</span>
-<span class="nc" id="L88">            ExpressionStmt exp = (ExpressionStmt) st;</span>
-<span class="nc" id="L89">            list.add(exp.getExpression().getClass().getSimpleName());</span>
-<span class="nc" id="L90">        }</span>
-<span class="nc bnc" id="L91" title="All 2 branches missed.">        else if(st.isSwitchStmt()){</span>
-<span class="nc" id="L92">            list.add(&quot;SwitchStmt&quot;);</span>
-<span class="nc" id="L93">            NodeList&lt;SwitchEntry&gt; caseSwitch = st.asSwitchStmt().getEntries();</span>
-<span class="nc" id="L94">            SwitchEntryVisitor visitor = new SwitchEntryVisitor(list);</span>
-<span class="nc" id="L95">            visitor.visitListSwitchEntry(caseSwitch, null);</span>
-<span class="nc" id="L96">            list.add(&quot;EndSwitchStmt&quot;);</span>
-<span class="nc" id="L97">        }</span>
+<span class="fc bfc" id="L87" title="All 2 branches covered.">        if(st.isExpressionStmt()){</span>
+<span class="fc" id="L88">            ExpressionStmt exp = (ExpressionStmt) st;</span>
+<span class="fc" id="L89">            list.add(exp.getExpression().getClass().getSimpleName());</span>
+<span class="fc" id="L90">        }</span>
+<span class="pc bpc" id="L91" title="1 of 2 branches missed.">        else if(st.isSwitchStmt()){</span>
+<span class="fc" id="L92">            list.add(&quot;SwitchStmt&quot;);</span>
+<span class="fc" id="L93">            NodeList&lt;SwitchEntry&gt; caseSwitch = st.asSwitchStmt().getEntries();</span>
+<span class="fc" id="L94">            SwitchEntryVisitor visitor = new SwitchEntryVisitor(list);</span>
+<span class="fc" id="L95">            visitor.visitListSwitchEntry(caseSwitch, null);</span>
+<span class="fc" id="L96">            list.add(&quot;EndSwitchStmt&quot;);</span>
+<span class="fc" id="L97">        }</span>
 <span class="nc bnc" id="L98" title="All 12 branches missed.">        else if(st.isForStmt() || st.isWhileStmt() || st.isForEachStmt() || st.isDoStmt() || st.isIfStmt() || st.isTryStmt()){</span>
 <span class="nc" id="L99">            scanComplexStatement(st, list);</span>
         }
 <span class="nc" id="L101">        else list.add(st.getClass().getSimpleName()); //Funziona per returnStmt o breakStmt</span>
-<span class="nc" id="L102">    }</span>
+<span class="fc" id="L102">    }</span>
     
     //Dato un blocco di statement, crea una lista di stringhe contenente per ogni statement la sua tipologia 
     public static List&lt;String&gt; createListOfTypeStatement(BlockStmt block){
@@ -123,9 +123,9 @@ public class Visitor {
     private static class SwitchEntryVisitor extends VoidVisitorAdapter&lt;Void&gt;{
         private List&lt;String&gt; list;
 
-<span class="nc" id="L126">        public SwitchEntryVisitor(List&lt;String&gt; list){</span>
-<span class="nc" id="L127">            this.list = list;</span>
-<span class="nc" id="L128">        }</span>
+<span class="fc" id="L126">        public SwitchEntryVisitor(List&lt;String&gt; list){</span>
+<span class="fc" id="L127">            this.list = list;</span>
+<span class="fc" id="L128">        }</span>
 
         @Override
         public void visit(SwitchEntry switchEntry, Void arg){
@@ -141,13 +141,13 @@ public class Visitor {
 
         public void visitListSwitchEntry(NodeList&lt;SwitchEntry&gt; switchEntries, Void arg) {
             //Per ogni entry di uno switch controllo se è un case o un default
-<span class="nc bnc" id="L144" title="All 2 branches missed.">            for (SwitchEntry switchEntry : switchEntries) {</span>
+<span class="pc bpc" id="L144" title="1 of 2 branches missed.">            for (SwitchEntry switchEntry : switchEntries) {</span>
 <span class="nc" id="L145">                List&lt;Expression&gt; labels = switchEntry.getLabels(); </span>
 <span class="nc bnc" id="L146" title="All 2 branches missed.">                if(labels.isEmpty()) list.add(&quot;DefaultStmt&quot;);</span>
 <span class="nc" id="L147">                else list.add(&quot;CaseStmt&quot;);</span>
 <span class="nc" id="L148">                visit(switchEntry, arg);</span>
 <span class="nc" id="L149">            }</span>
-<span class="nc" id="L150">        }</span>
+<span class="fc" id="L150">        }</span>
     }
 
     private static class MethodName extends VoidVisitorAdapter&lt;List&lt;String&gt;&gt;{
@@ -160,8 +160,8 @@ public class Visitor {
     private static class MethodBlockStmt extends VoidVisitorAdapter&lt;List&lt;BlockStmt&gt;&gt;{
         @Override
         public void visit(MethodDeclaration md, List&lt;BlockStmt&gt; collector){
-<span class="nc" id="L163">            collector.add(md.getBody().orElse(null));</span>
-<span class="nc" id="L164">        }</span>
+<span class="fc" id="L163">            collector.add(md.getBody().orElse(null));</span>
+<span class="fc" id="L164">        }</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>
