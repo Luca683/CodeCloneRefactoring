@@ -62,6 +62,14 @@ public class Car{
                     System.out.println("Hello");
                     System.out.println("World");
                 }
+                else if(varSwitch==3){
+                    flag = 10;
+                    System.out.println("flag = 2");
+                }
+                else{
+                    System.out.println("ElseBlock");
+                    System.out.println("flag = 4");
+                }
                 System.out.println("1");
                 break;
             case 3:

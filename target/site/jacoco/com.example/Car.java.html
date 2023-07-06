@@ -18,7 +18,7 @@ public class Car{
 <span class="nc bnc" id="L18" title="All 2 branches missed.">        if(on){</span>
 <span class="nc" id="L19">            speed++;</span>
 <span class="nc" id="L20">            System.out.println(&quot;Velocità aumentata di 1&quot;);</span>
-        }
+<span class="nc" id="L21">        }</span>
         else{
 <span class="nc" id="L23">            System.out.println(&quot;La macchina è spenta&quot;);</span>
         }
@@ -61,51 +61,59 @@ public class Car{
 <span class="nc bnc" id="L61" title="All 2 branches missed.">                if(varSwitch==2){</span>
 <span class="nc" id="L62">                    System.out.println(&quot;Hello&quot;);</span>
 <span class="nc" id="L63">                    System.out.println(&quot;World&quot;);</span>
+<span class="nc" id="L64">                }</span>
+<span class="nc bnc" id="L65" title="All 2 branches missed.">                else if(varSwitch==3){</span>
+<span class="nc" id="L66">                    flag = 10;</span>
+<span class="nc" id="L67">                    System.out.println(&quot;flag = 2&quot;);</span>
+<span class="nc" id="L68">                }</span>
+                else{
+<span class="nc" id="L70">                    System.out.println(&quot;ElseBlock&quot;);</span>
+<span class="nc" id="L71">                    System.out.println(&quot;flag = 4&quot;);</span>
                 }
-<span class="nc" id="L65">                System.out.println(&quot;1&quot;);</span>
-<span class="nc" id="L66">                break;</span>
+<span class="nc" id="L73">                System.out.println(&quot;1&quot;);</span>
+<span class="nc" id="L74">                break;</span>
             case 3:
-<span class="nc" id="L68">                System.out.println(&quot;1&quot;);</span>
-<span class="nc" id="L69">                break;</span>
+<span class="nc" id="L76">                System.out.println(&quot;1&quot;);</span>
+<span class="nc" id="L77">                break;</span>
             default:
-<span class="nc" id="L71">                System.out.println(&quot;No value&quot;);</span>
+<span class="nc" id="L79">                System.out.println(&quot;No value&quot;);</span>
         }
 
-<span class="nc" id="L74">        String[] cars = {&quot;Volvo&quot;, &quot;BMW&quot;, &quot;Ford&quot;, &quot;Mazda&quot;};</span>
-<span class="nc bnc" id="L75" title="All 2 branches missed.">        for (String i : cars) {</span>
-<span class="nc" id="L76">            System.out.println(i);</span>
+<span class="nc" id="L82">        String[] cars = {&quot;Volvo&quot;, &quot;BMW&quot;, &quot;Ford&quot;, &quot;Mazda&quot;};</span>
+<span class="nc bnc" id="L83" title="All 2 branches missed.">        for (String i : cars) {</span>
+<span class="nc" id="L84">            System.out.println(i);</span>
         }
 
         try {
-<span class="nc" id="L80">            int[] myNumbers = {1, 2, 3};</span>
-<span class="nc" id="L81">            System.out.println(myNumbers[10]);</span>
-<span class="nc" id="L82">        } catch(ArrayIndexOutOfBoundsException e){</span>
-<span class="nc" id="L83">            System.out.println(&quot;Array error&quot;);</span>
-<span class="nc" id="L84">        } catch (Exception e){</span>
-<span class="nc" id="L85">            System.out.println(&quot;Something went wrong.&quot;);</span>
+<span class="nc" id="L88">            int[] myNumbers = {1, 2, 3};</span>
+<span class="nc" id="L89">            System.out.println(myNumbers[10]);</span>
+<span class="nc" id="L90">        } catch(ArrayIndexOutOfBoundsException e){</span>
+<span class="nc" id="L91">            System.out.println(&quot;Array error&quot;);</span>
+<span class="nc" id="L92">        } catch (Exception e){</span>
+<span class="nc" id="L93">            System.out.println(&quot;Something went wrong.&quot;);</span>
         } finally{
-<span class="nc" id="L87">            System.out.println(&quot;Finally&quot;);</span>
-<span class="nc" id="L88">            System.out.println(&quot;Block&quot;);</span>
+<span class="nc" id="L95">            System.out.println(&quot;Finally&quot;);</span>
+<span class="nc" id="L96">            System.out.println(&quot;Block&quot;);</span>
         }
-<span class="nc" id="L90">        return &quot;Metodo terminato&quot;;</span>
+<span class="nc" id="L98">        return &quot;Metodo terminato&quot;;</span>
     }
 
     public void provaIfElse(int flag){
-<span class="nc bnc" id="L94" title="All 2 branches missed.">        if(flag==1){</span>
-<span class="nc" id="L95">            System.out.println(&quot;flag = 1&quot;);</span>
-        }
-<span class="nc bnc" id="L97" title="All 2 branches missed.">        else if(flag==2){</span>
-<span class="nc" id="L98">            flag = 10;</span>
-<span class="nc" id="L99">            System.out.println(&quot;flag = 2&quot;);</span>
-        }
-<span class="nc bnc" id="L101" title="All 2 branches missed.">        else if(flag==3){</span>
-<span class="nc" id="L102">            System.out.println(&quot;flag = 3&quot;);</span>
-        }
+<span class="nc bnc" id="L102" title="All 2 branches missed.">        if(flag==1){</span>
+<span class="nc" id="L103">            System.out.println(&quot;flag = 1&quot;);</span>
+<span class="nc" id="L104">        }</span>
+<span class="nc bnc" id="L105" title="All 2 branches missed.">        else if(flag==2){</span>
+<span class="nc" id="L106">            flag = 10;</span>
+<span class="nc" id="L107">            System.out.println(&quot;flag = 2&quot;);</span>
+<span class="nc" id="L108">        }</span>
+<span class="nc bnc" id="L109" title="All 2 branches missed.">        else if(flag==3){</span>
+<span class="nc" id="L110">            System.out.println(&quot;flag = 3&quot;);</span>
+<span class="nc" id="L111">        }</span>
         else{
-<span class="nc" id="L105">            System.out.println(&quot;ElseBlock&quot;);</span>
-<span class="nc" id="L106">            System.out.println(&quot;flag = 4&quot;);</span>
+<span class="nc" id="L113">            System.out.println(&quot;ElseBlock&quot;);</span>
+<span class="nc" id="L114">            System.out.println(&quot;flag = 4&quot;);</span>
         }
 
-<span class="nc" id="L109">    }</span>
+<span class="nc" id="L117">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

@@ -1,8 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: com.example.TestVisitor
 -------------------------------------------------------------------------------
-Tests run: 3, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.506 s <<< FAILURE! - in com.example.TestVisitor
-testAddTypeStatementInList(com.example.TestVisitor)  Time elapsed: 0.383 s  <<< ERROR!
-java.lang.IllegalStateException: return; is not an BlockStmt
-	at com.example.TestVisitor.testAddTypeStatementInList(TestVisitor.java:87)
-
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.571 s - in com.example.TestVisitor
