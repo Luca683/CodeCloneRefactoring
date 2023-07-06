@@ -1,5 +1,5 @@
 GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
-CodeCloneRefactoring,com.example,SimilarityAnalyzer,147,0,10,0,14,0,8,0,3,0
+CodeCloneRefactoring,com.example,SimilarityAnalyzer,0,147,0,10,0,14,0,8,0,3
 CodeCloneRefactoring,com.example,Visitor,33,301,8,40,7,64,7,24,1,6
 CodeCloneRefactoring,com.example,Visitor.MethodName,0,6,0,0,0,2,0,1,0,1
 CodeCloneRefactoring,com.example,Client,122,0,4,0,19,0,4,0,2,0

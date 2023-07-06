@@ -12,6 +12,7 @@ import static org.junit.Assert.*;
 
 import java.io.FileInputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -63,74 +64,21 @@ public class TestVisitor {
         
         List<String> typeOfBlockStmtList = Visitor.createListOfTypeStatement(methodBlocksList.get(7));   
 
+        
         List<String> expectedList = new ArrayList<>();
-        expectedList.add("MethodCallExpr");
-        expectedList.add("ForStmt");
-        expectedList.add("ForStmt");
-        expectedList.add("VariableDeclarationExpr");
-        expectedList.add("MethodCallExpr");
-        expectedList.add("EndForStmt");
-        expectedList.add("VariableDeclarationExpr");
-        expectedList.add("MethodCallExpr");
-        expectedList.add("EndForStmt");
-        expectedList.add("VariableDeclarationExpr");
-        expectedList.add("DoStmt");
-        expectedList.add("UnaryExpr");
-        expectedList.add("MethodCallExpr");
-        expectedList.add("EndDoStmt");
-        expectedList.add("VariableDeclarationExpr");
-        expectedList.add("WhileStmt");
-        expectedList.add("AssignExpr");
-        expectedList.add("MethodCallExpr");
-        expectedList.add("EndWhileStmt");
-        expectedList.add("VariableDeclarationExpr");
-        expectedList.add("SwitchStmt");
-        expectedList.add("CaseStmt");
-        expectedList.add("MethodCallExpr");
-        expectedList.add("BreakStmt");
-        expectedList.add("CaseStmt");
-        expectedList.add("IfStmt");
-        expectedList.add("MethodCallExpr");
-        expectedList.add("MethodCallExpr");
-        expectedList.add("EndIfStmt");
-        expectedList.add("ElseStmt");
-        expectedList.add("IfStmt");
-        expectedList.add("AssignExpr");
-        expectedList.add("MethodCallExpr");
-        expectedList.add("EndIfStmt");
-        expectedList.add("ElseStmt");
-        expectedList.add("MethodCallExpr");
-        expectedList.add("MethodCallExpr");
-        expectedList.add("EndElseStmt");
-        expectedList.add("EndElseStmt");
-        expectedList.add("MethodCallExpr");
-        expectedList.add("BreakStmt");
-        expectedList.add("CaseStmt");
-        expectedList.add("MethodCallExpr");
-        expectedList.add("BreakStmt");
-        expectedList.add("DefaultStmt");
-        expectedList.add("MethodCallExpr");
-        expectedList.add("EndSwitchStmt");
-        expectedList.add("VariableDeclarationExpr");
-        expectedList.add("ForEachStmt");
-        expectedList.add("MethodCallExpr");
-        expectedList.add("EndForEachStmt");
-        expectedList.add("TryStmt");
-        expectedList.add("VariableDeclarationExpr");
-        expectedList.add("MethodCallExpr");
-        expectedList.add("EndTryStmt");
-        expectedList.add("CatchClause");
-        expectedList.add("MethodCallExpr");
-        expectedList.add("EndCatchClause");
-        expectedList.add("CatchClause");
-        expectedList.add("MethodCallExpr");
-        expectedList.add("EndCatchClause");
-        expectedList.add("FinallyStmt");
-        expectedList.add("MethodCallExpr");
-        expectedList.add("MethodCallExpr");
-        expectedList.add("EndFinallyStmt");
-        expectedList.add("ReturnStmt");
 
+        expectedList = Arrays.asList("MethodCallExpr", "ForStmt", "ForStmt", "VariableDeclarationExpr", "MethodCallExpr", 
+                                    "EndForStmt", "VariableDeclarationExpr", "MethodCallExpr", "EndForStmt", "VariableDeclarationExpr", 
+                                    "DoStmt", "UnaryExpr", "MethodCallExpr", "EndDoStmt", "VariableDeclarationExpr", "WhileStmt", 
+                                    "AssignExpr", "MethodCallExpr", "EndWhileStmt", "VariableDeclarationExpr", "SwitchStmt", "CaseStmt", 
+                                    "MethodCallExpr", "BreakStmt", "CaseStmt", "IfStmt", "MethodCallExpr", "MethodCallExpr", "EndIfStmt", 
+                                    "ElseStmt", "IfStmt", "AssignExpr", "MethodCallExpr", "EndIfStmt", "ElseStmt", "MethodCallExpr", 
+                                    "MethodCallExpr", "EndElseStmt", "EndElseStmt", "MethodCallExpr", "BreakStmt", "CaseStmt", 
+                                    "MethodCallExpr", "BreakStmt", "DefaultStmt", "MethodCallExpr", "EndSwitchStmt", 
+                                    "VariableDeclarationExpr", "ForEachStmt", "MethodCallExpr", "EndForEachStmt", "TryStmt", 
+                                    "VariableDeclarationExpr", "MethodCallExpr", "EndTryStmt", "CatchClause", "MethodCallExpr", 
+                                    "EndCatchClause", "CatchClause", "MethodCallExpr", "EndCatchClause", "FinallyStmt", "MethodCallExpr", 
+                                    "MethodCallExpr", "EndFinallyStmt", "ReturnStmt" );
         assertEquals(typeOfBlockStmtList, expectedList);
     }
 }
